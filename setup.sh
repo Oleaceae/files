@@ -16,6 +16,9 @@ mv jdk1.8.0_241 ~/RubbosClient/elba/rubbos
 mv jdk-8u241-linux-x64.tar.gz ~/RubbosClient/rubbos
 chmod +x ~/RubbosClient/elba/rubbos/jdk1.8.0_241/bin/java
 
+# Move ctrl_setup.sh to ~
+mv ctrl_setup.sh ..
+
 # Change to dir ~
 cd ~
 
@@ -28,11 +31,11 @@ sed -i.bak 's/$host_ssh_name/apt.emulab.net/g' ./config/config.json
 sed -i.bak 's/azhang/wbcheng/g' ./socialNetwork/runtime_files/rubbos.properties_1000
 
 # Setup controller
-
-./controller_setup.sh \
---username wbcheng \
---private_ssh_key_path "/users/wbcheng/.ssh/id_rsa" \
---controller_node $CONTROLLER_HOST.apt.emulab.net \
---git_email wcheng78@gatech.edu \
---swarm_node_number 6 \
---client_node_number 5
+exit
+#./controller_setup.sh \
+#--username wbcheng \
+#--private_ssh_key_path "/users/wbcheng/.ssh/id_rsa" \
+#--controller_node $CONTROLLER_HOST.apt.emulab.net \
+#--git_email wcheng78@gatech.edu \
+#--swarm_node_number 6 \
+#--client_node_number 5
