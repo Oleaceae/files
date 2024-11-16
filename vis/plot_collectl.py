@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 baseDir = "/Users/Oleaceae/Documents/Work/RTS/archive/2024-11-15@02-28-18"
 timestamp_step = 100 # Customize, should be set to the steps in the csv, default be 100ms
 
+exprDate = "20241115" # Customize
 exprStartTime = 1731662892000 # Customize
 lowerBound = 1731662895000 # Customize
 upperBound = 1731662906000 # Customize
@@ -67,8 +68,6 @@ def work(fnames, selField, lb, ub):
 
 
 if __name__ == "__main__":
-    exprDate = "20241115" # Customize
-
     # _collectl.csv
     fnames = [
         f"node-0-{exprDate}_collectl.csv",

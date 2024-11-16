@@ -2,13 +2,13 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-longReqTimestamps= [1731662904623 - 96, 1731662903655-97, 1731662900295 - 113, 1731662899777 - 98]
+longReqTimestamps= [1731707454063 - 99]
+lb = 1731707450000
+ub = 1731707460000
 
-resDir = "/Users/Oleaceae/Documents/Work/RTS/archive/2024-11-15@02-28-18"
+resDir = "/users/wbcheng/socialNetwork/2023-0408-WL5000-readHomeTimeline/2024-11-15@14-50-52"
 
 exprFName = "Experiments_timestamp.log"
-resultFName = "result_post.jtl"
-
 exprSTime = -1
 exprETime = -1
 with open(os.path.join(resDir, exprFName), "r") as f:
@@ -18,53 +18,61 @@ with open(os.path.join(resDir, exprFName), "r") as f:
 
 print(exprSTime, exprETime)
 
-lb = 1731662895000
-ub = 1731662906000
-# lb = exprSTime
-# ub = exprETime
-win_size = 50
-num_win = (ub-lb) // win_size
+resultFNames = [
+    "result.jtl",
+    "result_home.jtl",
+    "result_post.jtl"
+]
 
-win_st = np.zeros(num_win)
-win_ed = np.zeros(num_win)
-req_num = 0
-with open(os.path.join(resDir, resultFName), "r") as f:
-    lines = f.readlines()
-    for i in range(len(lines)):
-        line = lines[i]
-        timestamp = line.split(" ")[0]
-        try:
-            timestamp = int(timestamp)
-        except:
-            #print("Err field val: ", timestamp)
-            continue
-    
-        if timestamp < lb or timestamp > ub:
-            continue        
+for resultFName in resultFNames:
+    print(resultFName)
+    lb = exprSTime
+    ub = exprETime
+    win_size = 50
+    num_win = (ub-lb) // win_size
 
-        latency = int(line.split(" ")[1])
+    win_st = np.zeros(num_win)
+    win_ed = np.zeros(num_win)
+    req_num = 0
+    with open(os.path.join(resDir, resultFName), "r") as f:
+        lines = f.readlines()
+        for i in range(len(lines)):
+            line = lines[i]
+            timestamp = line.split(" ")[0]
+            try:
+                timestamp = int(timestamp)
+            except:
+                #print("Err field val: ", timestamp)
+                continue
+        
+            if timestamp <= lb or timestamp >= ub:
+                continue        
 
-        ed = timestamp - lb
-        st = timestamp - latency - lb
+            latency = int(line.split(" ")[1])
 
-        win_st[st // win_size] += 1
-        win_ed[ed // win_size] += 1
-        req_num += 1
+            ed = timestamp - lb
+            st = timestamp - latency - lb
 
-print(req_num)
+            win_st[st // win_size] += 1
+            win_ed[ed // win_size] += 1
+            req_num += 1
 
-q = []
-num_st = 0
-num_rt = 0
-for i in range(num_win):
-    num_st += win_st[i]
-    num_rt += win_ed[i]
-    q.append(num_st - num_rt)
+    print(req_num)
 
-plt.plot(list(range(num_win)), q)
+    q = []
+    num_st = 0
+    num_rt = 0
+    for i in range(num_win):
+        num_st += win_st[i]
+        num_rt += win_ed[i]
+        q.append(num_st - num_rt)
 
-for longReqTimestamp in longReqTimestamps:
-    plt.axvline(x=(longReqTimestamp - lb) // win_size, color="r")
+    plt.clf()
+    plt.plot(list(range(num_win)), q)
 
-plt.show()
+    for longReqTimestamp in longReqTimestamps:
+        plt.axvline(x=(longReqTimestamp - lb) // win_size, color="r")
+
+    os.makedirs("queue_figs", exist_ok=True)
+    plt.savefig(os.path.join("queue_figs", f"{resultFName}.png"))
 
