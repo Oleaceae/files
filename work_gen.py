@@ -2,7 +2,8 @@ from fabric import ThreadingGroup
 import os
 
 # ------------Configuration Start------------
-work_dir = "~/DeathStarBench/socialNetwork"
+home_dir = os.path.expanduser("~")
+work_dir = f"{home_dir}/DeathStarBench/socialNetwork"
 
 test_duration = 1   # Duration of the test in seconds
 rate_dis = "exp"    # Rate distribution, default to be exponential
