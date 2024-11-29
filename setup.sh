@@ -1,5 +1,6 @@
 #set username number
-EXPR_NAME=wbcheng-234022
+ACCOUNT_NAME=wbcheng
+EXPR_NAME=$ACCOUNT_NAME-234022
 CONTROLLER_HOST=pc755
 HOST_NAME=emulab.net
 
@@ -15,28 +16,53 @@ mv jdk-8u241-linux-x64.tar.gz ~/RubbosClient/rubbos
 chmod +x ~/RubbosClient/elba/rubbos/jdk1.8.0_241/bin/java
 
 # Move ctrl_setup.sh to ~
-sed -i.bak "s/PLACEHOLDER/$CONTROLLER_HOST.$HOST_NAME/g" ./ctrl_setup.sh.template
+sed -i "s/PLACEHOLDER/$CONTROLLER_HOST.$HOST_NAME/g" ./ctrl_setup.sh.template
 mv ctrl_setup.sh.template ../ctrl_setup.sh
 
 # Change to dir ~
 cd ~
 
 # Change config
-sed -i.bak 's/$your_cloud_lab_username/wbcheng/g' ./config/config.json
-sed -i.bak "s/\$username-six_digit_number/$EXPR_NAME/g" ./config/config.json
-sed -i.bak "s/\$host_ssh_name/$HOST_NAME/g" ./config/config.json
+sed -i "s/\$your_cloud_lab_username/$ACCOUNT_NAME/g" ./config/config.json
+sed -i "s/\$username-six_digit_number/$EXPR_NAME/g" ./config/config.json
+sed -i "s/\$host_ssh_name/$HOST_NAME/g" ./config/config.json
 
 # Change hardcoded path
-sed -i.bak 's/azhang/wbcheng/g' ./socialNetwork/runtime_files/rubbos.properties_1000
+sed -i "s/azhang/$ACCOUNT_NAME/g" ./socialNetwork/runtime_files/rubbos.properties_1000
 
 # Change controller_setup.sh
-sed -i.bak "98,105d" controller_setup.sh
+sed -i "98,105d" controller_setup.sh
 
 # Setup Controller
 ./controller_setup.sh \
---username wbcheng \
---private_ssh_key_path "/users/wbcheng/.ssh/id_rsa" \
+--username $ACCOUNT_NAME \
+--private_ssh_key_path "/users/$ACCOUNT_NAME/.ssh/id_rsa" \
 --controller_node $CONTROLLER_HOST.$HOST_NAME \
 --git_email wcheng78@gatech.edu \
 --swarm_node_number 6 \
 --client_node_number 5
+
+# Delete start.sh in setup_docker_dwarm.py
+cd ~/SetupScripts
+sed -i "122d" setup_docker_swarm.py 
+sed -i "118,119d" setup_docker_swarm.py 
+sed -i "102d" setup_docker_swarm.py 
+
+# Setup docker swarm environment
+python setup_docker_swarm.py -a 10.10.1.1 -n 6 -cn 5
+
+cd ~/DeathStarBench/socialNetwork
+# Change docker-compose-swarm.yml
+if [[ `hostname` == *"infosphere-pg0"* ]]; then
+    # change infosphere to infosphere-pg0
+    sed -i "s/\.infosphere\./\.infosphere-pg0\./g" ./docker-compose-swarm.yml
+else
+    # change infosphere-pg0 to infosphere
+    sed -i "s/\.infosphere-pg0\./\.infosphere\./g" ./docker-compose-swarm.yml
+fi
+
+# io_intensive and cpu_intensive is of no use, comment out
+sed -i "493,503s/^/#/" ./docker-compose-swarm.yml
+
+echo "Done"
+echo "Switch to dir ~/DeathStarBench/socialNetwork and run sudo ./start.sh all to start the swarm"
