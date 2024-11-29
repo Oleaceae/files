@@ -16,7 +16,7 @@ url = "http://localhost:8080/wrk2-api/post/compose" # Target URL
 
 client_nodes= [f'node-{idx}' for idx in range(0, 1)] # ssh of hostnames
 result_node = "node-0"
-result_dir = f"/result/tmp"
+result_dir = f"/tmp/result"
 
 # -------------Configuration END--------------
 

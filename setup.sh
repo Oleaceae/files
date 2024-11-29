@@ -42,7 +42,7 @@ sed -i "98,105d" controller_setup.sh
 --swarm_node_number 6 \
 --client_node_number 5
 
-# Delete start.sh in setup_docker_dwarm.py
+# Delete start.sh in setup_docker_dwarm.py before correct yml file
 cd ~/SetupScripts
 sed -i "122d" setup_docker_swarm.py 
 sed -i "118,119d" setup_docker_swarm.py 
