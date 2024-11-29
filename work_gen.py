@@ -22,8 +22,8 @@ result_dir = f"/result/tmp"
 
 with ThreadingGroup(*client_nodes) as client_grp:
     # Create and clear result dir
-    client_grp.run(f"mkdir -p {result_dir}")
-    client_grp.run(f"rm -rf {result_dir}/*.log")
+    client_grp.run(f"sudo mkdir -p {result_dir}")
+    client_grp.run(f"sudo rm -rf {result_dir}/lat_*.log")
 
     # Generate and copy logs
     workgen_cmd = f"{work_dir}/../wrk2/wrk -D {rate_dis} -R {rate_avg} -t {thread_num} -c {connection_num} -d {test_duration} -L -s {lua_script} {url}"
