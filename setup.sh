@@ -7,6 +7,9 @@ HOST_NAME=emulab.net
 sudo apt update
 sudo apt install -y python3-pip python2
 
+# Setup ssh key
+mv id_rsa* ~/.ssh
+
 # Clone git repo
 git clone https://github.com/WindowsXp-Beta/SocialNetwork.git
 mv SocialNetwork/* ~
