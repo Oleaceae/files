@@ -71,6 +71,7 @@ cd ~/files
 mv *.py ~/DeathStarBench/socialNetwork
 mv config.json ~/DeathStarBench/socialNetwork
 mv compose-post.lua ~/DeathStarBench/socialNetwork/wrk2/scripts/social-network
+mkdir /tmp/lat
 
 echo "All Done"
 echo "To start the swarm, switch to ~/DeathStarBench/socialNetwork and run \"sudo ./start.sh all\""
