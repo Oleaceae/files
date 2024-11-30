@@ -4,6 +4,9 @@ EXPR_NAME=$ACCOUNT_NAME-234022
 CONTROLLER_HOST=pc755
 HOST_NAME=emulab.net
 
+sudo apt update
+sudo apt install -y python3-pip python2
+
 # Clone git repo
 git clone https://github.com/WindowsXp-Beta/SocialNetwork.git
 mv SocialNetwork/* ~
@@ -14,10 +17,6 @@ tar -xzvf jdk1.8.0_241.tar.gz
 mv jdk1.8.0_241 ~/RubbosClient/elba/rubbos
 mv jdk-8u241-linux-x64.tar.gz ~/RubbosClient/rubbos
 chmod +x ~/RubbosClient/elba/rubbos/jdk1.8.0_241/bin/java
-
-# Move ctrl_setup.sh to ~
-sed -i "s/PLACEHOLDER/$CONTROLLER_HOST.$HOST_NAME/g" ./ctrl_setup.sh.template
-mv ctrl_setup.sh.template ../ctrl_setup.sh
 
 # Change to dir ~
 cd ~
@@ -42,7 +41,7 @@ sed -i "98,105d" controller_setup.sh
 --swarm_node_number 6 \
 --client_node_number 5
 
-# Delete start.sh in setup_docker_dwarm.py before correct yml file
+# Delete start.sh in setup_docker_dwarm.py before correcting swarm.yml hostname
 cd ~/SetupScripts
 sed -i "122d" setup_docker_swarm.py 
 sed -i "118,119d" setup_docker_swarm.py 
@@ -64,5 +63,5 @@ fi
 # io_intensive and cpu_intensive is of no use, comment out
 sed -i "493,503s/^/#/" ./docker-compose-swarm.yml
 
-echo "Done"
+echo "All Done"
 echo "To start the swarm, switch to ~/DeathStarBench/socialNetwork and run \"sudo ./start.sh all\""
