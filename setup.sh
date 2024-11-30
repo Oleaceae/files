@@ -67,6 +67,7 @@ fi
 sed -i "493,503s/^/#/" ./docker-compose-swarm.yml
 
 # Move scripts to working dir
+cd ~/files
 mv *.py ~/DeathStarBench/socialNetwork
 mv config.json ~/DeathStarBench/socialNetwork
 mv compose-post.lua ~/DeathStarBench/socialNetwork/wrk2/scripts/social-network
