@@ -74,7 +74,8 @@ def stress():
     wrk_duration = config["wrk"]["seconds"]
     stress_time = []
     if inj_type == "rand":
-        # Does not stress at the start or the end
+        if times == 0:
+            return
         timeslice = wrk_duration / times
         for i in range(times):
             stress_time.append(random.uniform(i*timeslice, (i+1)*timeslice))
