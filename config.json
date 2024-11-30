@@ -1,0 +1,44 @@
+{
+    "sysarch": {
+        "client_node": "node-0",
+        "swarm_nodes": [
+            "node-0",
+            "node-1",
+            "node-2",
+            "node-3",
+            "node-4",
+            "node-5"
+        ]
+    },
+
+    "wrk": {
+        "seconds": 30,
+        "rate_dis": "exp",
+        "rate_avg": 500,
+        "thrd_num": 500,
+        "conn_num": 500,
+        "lua_script": "./wrk2/scripts/social-network/compose-post.lua",
+        "url":  "http://localhost:8080/wrk2-api/post/compose"
+    },
+
+    "stress": {
+        "node": "node-2",
+        "times": 2,
+        "seconds": 0.5,
+        "vm": 1000,
+        "cpu": 1000,
+        "vm_bytes": "64G"
+    },
+
+    "vis": {
+        "png_dir": "./vis",
+        "sysdata_vis_nodes": [
+            "node-0",
+            "node-1",
+            "node-2",
+            "node-3",
+            "node-4",
+            "node-5"
+        ]
+    }
+}

@@ -65,4 +65,4 @@ fi
 sed -i "493,503s/^/#/" ./docker-compose-swarm.yml
 
 echo "Done"
-echo "Switch to dir ~/DeathStarBench/socialNetwork and run sudo ./start.sh all to start the swarm"
+echo "To start the swarm, switch to ~/DeathStarBench/socialNetwork and run \"sudo ./start.sh all\""
