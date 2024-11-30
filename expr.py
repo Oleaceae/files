@@ -98,6 +98,7 @@ def vis():
     os.system("python vis_sys.py")
 
 if __name__ == "__main__":
+    os.system("sudo apt-get install -y stress")
     start_collectl()
 
     thread_wrk = threading.Thread(target=workload)

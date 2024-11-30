@@ -66,5 +66,10 @@ fi
 # [Optional] io_intensive and cpu_intensive is not used, comment out
 sed -i "493,503s/^/#/" ./docker-compose-swarm.yml
 
+# Move scripts to working dir
+mv *.py ~/DeathStarBench/socialNetwork
+mv config.json ~/DeathStarBench/socialNetwork
+mv compose-post.lua ~/DeathStarBench/socialNetwork/wrk2/scripts/social-network
+
 echo "All Done"
 echo "To start the swarm, switch to ~/DeathStarBench/socialNetwork and run \"sudo ./start.sh all\""
