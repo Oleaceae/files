@@ -68,22 +68,28 @@ def stress():
     cpu = config["stress"]["cpu"]
     vm = config["stress"]["vm"]
     vm_bytes = config["stress"]["vm_bytes"]
+    inj_type = config["stress"]["inj_type"] # Fix: given timepoint, Rand: randomly generates
+    fix_time = sorted(config["stress"]["fix_time"])
 
     wrk_duration = config["wrk"]["seconds"]
-
-    # Does not stress at the start or the end
     stress_time = []
-    timeslice = wrk_duration / times
-    for i in range(times):
-        stress_time.append(random.uniform(i*timeslice, (i+1)*timeslice))
+    if inj_type == "rand":
+        # Does not stress at the start or the end
+        timeslice = wrk_duration / times
+        for i in range(times):
+            stress_time.append(random.uniform(i*timeslice, (i+1)*timeslice))
+    elif inj_type == "fix":
+        stress_time = fix_time
     
-    for i in range(times):
+    for i in range(len(stress_time)):
         if i == 0:
             time.sleep(stress_time[0])
         else:
             time.sleep(stress_time[i] - stress_time[i-1])
         print(f"Injecting millibottleneck at {stress_time[i]} ...")
         remote_exec(node, f"timeout {seconds}s stress --cpu {cpu} --vm {vm} --vm-bytes {vm_bytes}")
+   
+
 
 def vis():
     print("Visualizing request latencies ...")

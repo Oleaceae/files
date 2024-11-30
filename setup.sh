@@ -60,7 +60,7 @@ else
     sed -i "s/\.infosphere-pg0\./\.infosphere\./g" ./docker-compose-swarm.yml
 fi
 
-# io_intensive and cpu_intensive is of no use, comment out
+# [Optional] io_intensive and cpu_intensive is not used, comment out
 sed -i "493,503s/^/#/" ./docker-compose-swarm.yml
 
 echo "All Done"

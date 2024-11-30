@@ -23,7 +23,9 @@
 
     "stress": {
         "node": "node-2",
+        "inj_type": "rand",
         "times": 2,
+        "fix_time": [],
         "seconds": 0.5,
         "vm": 1000,
         "cpu": 1000,
