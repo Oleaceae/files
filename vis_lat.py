@@ -85,7 +85,7 @@ for t in range(time_lb,time_ub+1):
 
 plt.plot(range(0, timespan+1), sts_filled)
 plt.xlabel("Timeline")
-plt.title("Requests Starting Timeline")
+plt.title("Requests Starting Number Over Time")
 plt.savefig(f"{png_dir}/req_st_timeline.png")
 
 # Latency timeline
@@ -99,7 +99,7 @@ for t in range(time_lb, time_ub+1):
 plt.plot(range(0, timespan+1), sts_lat_filled)
 plt.xlabel("Timeline")
 plt.ylabel("Average latency (ms)")
-plt.title("Average Latency Timeline")
+plt.title("Average Latency Over Time")
 plt.savefig(f"{png_dir}/avg_lat_timeline.png")
 
 print("Done")
